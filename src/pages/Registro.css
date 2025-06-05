@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.registro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #F8F9FB;
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+}
+
+.registro-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(55, 12, 42, 0.1);
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.registro-title {
+  color: #370C2A;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.registro-alert {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #370C2A;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.registro-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.registro-input:focus {
+  border-color: #370C2A;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(55, 12, 42, 0.1);
+}
+
+.registro-button {
+  background-color: #370C2A;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.registro-button:hover {
+  background-color: #4a1039;
+}
+
+.registro-button:disabled {
+  background-color: #9c8b97;
+  cursor: not-allowed;
+}
+
+.registro-login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.registro-login-link a {
+  color: #370C2A;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.registro-login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .registro-card {
+    padding: 20px;
+  }
+  
+  .registro-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registro-card {
+    padding: 15px;
+  }
+  
+  .registro-title {
+    font-size: 22px;
+  }
+  
+  .registro-input,
+  .registro-button {
+    padding: 10px;
+  }
+}
+
+/* Estilos para el contenedor de input de contraseña */
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container .registro-input {
+  flex: 1;
+  padding-right: 40px; /* Espacio para el botón */
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transition: color 0.3s;
+}
+
+.toggle-password-btn:hover {
+  color: #370C2A;
+}

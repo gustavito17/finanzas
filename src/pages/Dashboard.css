@@ -1,0 +1,497 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+.dashboard-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  background-color: #F8F9FB;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header h1 {
+  color: #370C2A;
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header button {
+  background-color: #370C2A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.header button:hover {
+  background-color: #4a1039;
+}
+
+.resumen-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(55, 12, 42, 0.1);
+  padding: 20px;
+}
+
+.card h2, .card h3 {
+  color: #370C2A;
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.amount {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.positive {
+  color: #28a745;
+}
+
+.negative {
+  color: #dc3545;
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.chart-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(55, 12, 42, 0.1);
+  padding: 20px;
+  height: 300px;
+}
+
+.chart-card h3 {
+  color: #370C2A;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #370C2A;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #370C2A;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(55, 12, 42, 0.1);
+}
+
+/* Estilos mejorados para los botones del formulario */
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #370C2A;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #4a1039;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(55, 12, 42, 0.2);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+}
+
+.btn:disabled {
+  background-color: #9c8b97;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Estilos para el mensaje de bienvenida y botón de cerrar sesión */
+
+/* Asegurarse de que el header mantenga los elementos en línea */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Mejorar el estilo del mensaje de bienvenida */
+.user-welcome {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcome-text {
+  font-weight: 500;
+  color: #370C2A;
+}
+
+.logout-btn {
+  background-color: #370C2A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: #4a1039;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(55, 12, 42, 0.2);
+}
+
+/* Estilos mejorados para los botones de acción */
+.btn-primary {
+  background-color: #370C2A;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #4a1039;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(55, 12, 42, 0.2);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.2);
+}
+
+/* Estilos para los botones de la tabla */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+  min-width: 70px;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(23, 162, 184, 0.2);
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+}
+
+.btn:disabled {
+  background-color: #9c8b97;
+  cursor: not-allowed;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.table th {
+  font-weight: 600;
+  color: #370C2A;
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.alert-danger {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .resumen-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .amount {
+    font-size: 20px;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+  }
+}
+
+/* Estilos para los filtros */
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+
+.filtro-grupo label {
+  margin-bottom: 8px;
+  color: #370C2A;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.filtro-input {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s;
+}
+
+.filtro-input:focus {
+  border-color: #370C2A;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(55, 12, 42, 0.1);
+}
+
+/* Estilos responsivos para los filtros */
+@media (max-width: 768px) {
+  .filtros-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .filtro-grupo {
+    width: 100%;
+  }
+}
+
+/* Mejoras para la responsividad de la tabla */
+@media (max-width: 768px) {
+  .table {
+    display: block;
+    width: 100%;
+  }
+  
+  .table thead {
+    display: none; /* Ocultar encabezados en móviles */
+  }
+  
+  .table tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  .table tr {
+    display: block;
+    margin-bottom: 15px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 12px;
+  }
+  
+  .table td {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .table td:last-child {
+    border-bottom: none;
+  }
+  
+  /* Agregar etiquetas para cada celda */
+  .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    width: 40%;
+    color: #370C2A;
+    padding-right: 10px;
+  }
+  
+  /* Ajustar el contenido de las celdas */
+  .table td span, .table td div {
+    width: 60%;
+    text-align: right;
+  }
+  
+  /* Ajustar botones de acción */
+  .action-buttons {
+    width: 60%;
+    justify-content: flex-end;
+  }
+  
+  .btn-sm {
+    padding: 5px 10px;
+    font-size: 11px;
+    min-width: 60px;
+  }
+}
+
+/* Ajustes adicionales para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .table td {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .table td::before {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  
+  .table td span, .table td div, .action-buttons {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .action-buttons {
+    justify-content: flex-start;
+    margin-top: 5px;
+  }
+}
