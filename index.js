@@ -10,12 +10,21 @@ const app = express();
 
 // Configurar CORS - Modificar esta sección
 const allowedOrigins = [
-  'https://finanzas-bafv.vercel.app', // Tu frontend en Vercel
+  'https://finanzas-bafv.vercel.app', // Dominio principal de Vercel
   'http://localhost:3000'             // Desarrollo local
 ];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Permitir peticiones sin origen (como curl, Postman, etc)
+    if (!origin) return callback(null, true);
+    // Permitir dominio principal y localhost
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    // Permitir todos los previews de Vercel
+    if (/^https:\/\/finanzas-bafv-.*\.vercel\.app$/.test(origin)) return callback(null, true);
+    // Si no está permitido
+    return callback(new Error('Not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
