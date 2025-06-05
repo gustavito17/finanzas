@@ -9,8 +9,13 @@ require('dotenv').config();
 const app = express();
 
 // Configurar CORS - Modificar esta sección
+const allowedOrigins = [
+  'https://finanzas-bafv.vercel.app', // Tu frontend en Vercel
+  'http://localhost:3000'             // Desarrollo local
+];
+
 app.use(cors({
-  origin: ["https://finanzasgaas.netlify.app", "http://localhost:3000"], // Permitir múltiples orígenes
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
@@ -19,7 +24,7 @@ app.use(cors({
 // Middleware adicional para asegurar que los encabezados CORS se envíen correctamente
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (origin === 'https://finanzasgaas.netlify.app' || origin === 'http://localhost:3000') {
+  if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
