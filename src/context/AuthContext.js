@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   // Verificar el estado de autenticación
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get('/auth/usuario');
+      const response = await axios.get('/api/auth/usuario');
       setUser(response.data.usuario);
       setIsAuthenticated(true);
     } catch (error) {
@@ -46,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   // Función para iniciar sesión - Fix the endpoint URL
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password
       }, {
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }) => {
   // Función para registrarse
   const register = async (email, password, nombre) => {
     try {
-      const response = await axios.post('/auth/registro', { email, password, nombre });
+      const response = await axios.post('/api/auth/registro', { email, password, nombre });
       const { token, usuario } = response.data;
       
       localStorage.setItem('token', token);
