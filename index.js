@@ -11,6 +11,7 @@ const app = express();
 // Configurar CORS - Modificar esta sección
 const allowedOrigins = [
   'https://finanzas-bafv.vercel.app', // Dominio principal de Vercel
+  'https://finanzas-cibw.vercel.app', // Nuevo dominio de Vercel
   'http://localhost:3000'             // Desarrollo local
 ];
 
