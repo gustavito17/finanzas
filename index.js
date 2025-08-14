@@ -9,45 +9,7 @@ require('dotenv').config();
 const app = express();
 
 // Configurar CORS - Modificar esta sección
-const allowedOrigins = [
-  'https://finanzas-bafv.vercel.app', // Dominio principal de Vercel
-  'https://finanzas-cibw.vercel.app', // Nuevo dominio de Vercel
-  'http://localhost:3000'             // Desarrollo local
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    // Permitir peticiones sin origen (como curl, Postman, etc)
-    if (!origin) return callback(null, true);
-    // Permitir dominio principal y localhost
-    if (allowedOrigins.includes(origin)) return callback(null, true);
-    // Permitir todos los previews de Vercel
-    if (/^https:\/\/finanzas-bafv-.*\.vercel\.app$/.test(origin)) return callback(null, true);
-    // Si no está permitido
-    return callback(new Error('Not allowed by CORS'));
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
-}));
-
-// Middleware adicional para asegurar que los encabezados CORS se envíen correctamente
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  
-  // Manejar solicitudes preflight OPTIONS
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  next();
-});
+app.use(cors());
 
 // Middleware para parsear JSON
 app.use(express.json());
