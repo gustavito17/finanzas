@@ -18,7 +18,7 @@ const authenticateToken = async (req, res, next) => {
     }
     
     // Verificar el token
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
         return res.status(403).json({ error: 'Token inválido o expirado.' });
       }
@@ -43,9 +43,9 @@ router.post('/registro', async (req, res) => {
     }
     
     // Verificar si el usuario ya existe
-    const [existingUsers] = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+    const existingUsers = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
     
-    if (existingUsers.length > 0) {
+    if (existingUsers.rows.length > 0) {
       return res.status(400).json({ error: 'El email ya está registrado.' });
     }
     
@@ -54,19 +54,21 @@ router.post('/registro', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     
     // Insertar el nuevo usuario
-    const [result] = await pool.query(
-      'INSERT INTO usuarios (email, password, nombre) VALUES (?, ?, ?)',
+    const result = await pool.query(
+      'INSERT INTO usuarios (email, password, nombre) VALUES ($1, $2, $3) RETURNING id',
       [email, hashedPassword, nombre || email.split('@')[0]] // Si no hay nombre, usa la parte del email antes de @
     );
     
+    const newUserId = result.rows[0].id;
+
     // Generar token JWT
-    const token = jwt.sign({ id: result.insertId, email, nombre }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: newUserId, email, nombre }, process.env.JWT_SECRET, { expiresIn: '1h' });
     
     res.status(200).json({
       mensaje: 'Usuario registrado exitosamente',
       token,
       usuario: {
-        id: result.insertId,
+        id: newUserId,
         email,
         nombre
       }
@@ -88,13 +90,13 @@ router.post('/login', async (req, res) => {
     }
     
     // Buscar el usuario
-    const [users] = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+    const { rows } = await pool.query('SELECT * FROM usuarios WHERE email = $1', [email]);
     
-    if (users.length === 0) {
+    if (rows.length === 0) {
       return res.status(400).json({ error: 'Email o contraseña incorrectos.' });
     }
     
-    const user = users[0];
+    const user = rows[0];
     
     // Verificar la contraseña
     const validPassword = await bcrypt.compare(password, user.password);
@@ -129,17 +131,17 @@ router.post('/login', async (req, res) => {
 router.get('/usuario', authenticateToken, async (req, res) => {
   try {
     // Obtener el usuario de la base de datos (sin incluir la contraseña)
-    const [users] = await pool.query(
-      'SELECT id, email, nombre, created_at FROM usuarios WHERE id = ?',
+    const { rows } = await pool.query(
+      'SELECT id, email, nombre, created_at FROM usuarios WHERE id = $1',
       [req.user.id]
     );
     
-    if (users.length === 0) {
+    if (rows.length === 0) {
       return res.status(404).json({ error: 'Usuario no encontrado.' });
     }
     
     res.json({
-      usuario: users[0]
+      usuario: rows[0]
     });
   } catch (error) {
     console.error('Error al obtener usuario:', error);

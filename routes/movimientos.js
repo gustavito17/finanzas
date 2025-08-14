@@ -34,12 +34,12 @@ router.get('/', authenticateToken, async (req, res) => {
   try {
     const usuario_id = req.user.id; // Obtenemos el ID del usuario del token
     
-    const [movimientos] = await pool.query(
-      'SELECT * FROM movimientos WHERE usuario_id = ? ORDER BY fecha DESC',
+    const { rows } = await pool.query(
+      'SELECT * FROM movimientos WHERE usuario_id = $1 ORDER BY fecha DESC',
       [usuario_id]
     );
     
-    res.json({ movimientos });
+    res.json({ movimientos: rows });
   } catch (error) {
     console.error('Error al obtener movimientos:', error);
     res.status(500).json({ error: 'Error en el servidor al obtener los movimientos.' });
@@ -66,21 +66,14 @@ router.post('/', authenticateToken, async (req, res) => {
     }
     
     // Insertar el movimiento
-    const [result] = await pool.query(
-      'INSERT INTO movimientos (usuario_id, tipo, monto, descripcion) VALUES (?, ?, ?, ?)',
+    const { rows } = await pool.query(
+      'INSERT INTO movimientos (usuario_id, tipo, monto, descripcion) VALUES ($1, $2, $3, $4) RETURNING *',
       [usuario_id, tipo, monto, descripcion || null]
     );
     
     res.status(201).json({
       mensaje: 'Movimiento registrado exitosamente',
-      movimiento: {
-        id: result.insertId,
-        usuario_id,
-        tipo,
-        monto,
-        descripcion,
-        fecha: new Date()
-      }
+      movimiento: rows[0]
     });
   } catch (error) {
     console.error('Error al crear movimiento:', error);
@@ -94,15 +87,15 @@ router.get('/resumen', authenticateToken, async (req, res) => {
     const usuario_id = req.user.id; // Obtenemos el ID del usuario del token
     
     // Obtener suma de ingresos
-    const [ingresos] = await pool.query(
-      'SELECT COALESCE(SUM(monto), 0) as total FROM movimientos WHERE usuario_id = ? AND tipo = "ingreso"',
-      [usuario_id]
+    const { rows: ingresos } = await pool.query(
+      'SELECT COALESCE(SUM(monto), 0) as total FROM movimientos WHERE usuario_id = $1 AND tipo = $2',
+      [usuario_id, 'ingreso']
     );
     
     // Obtener suma de egresos
-    const [egresos] = await pool.query(
-      'SELECT COALESCE(SUM(monto), 0) as total FROM movimientos WHERE usuario_id = ? AND tipo = "egreso"',
-      [usuario_id]
+    const { rows: egresos } = await pool.query(
+      'SELECT COALESCE(SUM(monto), 0) as total FROM movimientos WHERE usuario_id = $1 AND tipo = $2',
+      [usuario_id, 'egreso']
     );
     
     const totalIngresos = parseFloat(ingresos[0].total);
@@ -143,8 +136,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
     
     // Verificar que el movimiento pertenezca al usuario
-    const [movimientoExistente] = await pool.query(
-      'SELECT * FROM movimientos WHERE id = ? AND usuario_id = ?',
+    const { rows: movimientoExistente } = await pool.query(
+      'SELECT * FROM movimientos WHERE id = $1 AND usuario_id = $2',
       [movimiento_id, usuario_id]
     );
     
@@ -154,7 +147,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
     
     // Actualizar el movimiento
     await pool.query(
-      'UPDATE movimientos SET tipo = ?, monto = ?, descripcion = ? WHERE id = ? AND usuario_id = ?',
+      'UPDATE movimientos SET tipo = $1, monto = $2, descripcion = $3 WHERE id = $4 AND usuario_id = $5',
       [tipo, monto, descripcion || null, movimiento_id, usuario_id]
     );
     
@@ -181,8 +174,8 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     const movimiento_id = req.params.id;
     
     // Verificar que el movimiento pertenezca al usuario
-    const [movimientoExistente] = await pool.query(
-      'SELECT * FROM movimientos WHERE id = ? AND usuario_id = ?',
+    const { rows: movimientoExistente } = await pool.query(
+      'SELECT * FROM movimientos WHERE id = $1 AND usuario_id = $2',
       [movimiento_id, usuario_id]
     );
     
@@ -192,7 +185,7 @@ router.delete('/:id', authenticateToken, async (req, res) => {
     
     // Eliminar el movimiento
     await pool.query(
-      'DELETE FROM movimientos WHERE id = ? AND usuario_id = ?',
+      'DELETE FROM movimientos WHERE id = $1 AND usuario_id = $2',
       [movimiento_id, usuario_id]
     );
     
