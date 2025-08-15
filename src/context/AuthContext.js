@@ -1,8 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
-// Define base URL for axios - use the Render backend URL
+// Define base URL for axios
 const API_URL = import.meta.env.VITE_API_URL;
+console.log('API URL being used:', API_URL); // Add this line to debug
 axios.defaults.baseURL = API_URL;
 
 export const AuthContext = createContext();
@@ -15,7 +16,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Always use the full Render URL - remove the conditional
     axios.defaults.baseURL = API_URL;
     
     
