@@ -3,8 +3,9 @@ import axios from 'axios';
 
 // Define base URL for axios
 const API_URL = process.env.REACT_APP_API_URL;
-console.log('API URL being used:', API_URL); // Add this line to debug
+console.log('API URL being used:', API_URL);
 axios.defaults.baseURL = API_URL;
+axios.defaults.timeout = 60000; // Timeout global de 30 segundos
 
 export const AuthContext = createContext();
 
@@ -50,17 +51,17 @@ export const AuthProvider = ({ children }) => {
         email,
         password
       }, {
-        timeout: 10000,
+        timeout: 60000, // Aumentar a 30 segundos
         headers: {
           'Content-Type': 'application/json'
         }
       });
-
+  
       if (response.data.token) {
-        setUser(response.data.usuario); // Change response.data.user to response.data.usuario
-        setIsAuthenticated(true); // Add this line
+        setUser(response.data.usuario);
+        setIsAuthenticated(true);
         localStorage.setItem('token', response.data.token);
-        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`; // Add this line
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
         return { success: true };
       }
     } catch (error) {
@@ -69,6 +70,15 @@ export const AuthProvider = ({ children }) => {
         status: error.response?.status,
         data: error.response?.data
       });
+      
+      // Mejor manejo de errores de timeout
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        return { 
+          success: false, 
+          message: 'El servidor está tardando en responder. Por favor, intenta de nuevo en unos momentos.'
+        };
+      }
+      
       return { 
         success: false, 
         message: error.response?.data?.error || 'Error en la conexión'
@@ -79,21 +89,37 @@ export const AuthProvider = ({ children }) => {
   // Función para registrarse
   const register = async (email, password, nombre) => {
     try {
-      const response = await axios.post('/api/auth/registro', { email, password, nombre });
-      const { token, usuario } = response.data;
-      
-      localStorage.setItem('token', token);
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
-      setUser(usuario);
-      setIsAuthenticated(true);
-      
-      return { success: true };
+      const response = await axios.post('/api/auth/registro', {
+        email,
+        password,
+        nombre
+      }, {
+        timeout: 60000, // Aumentar timeout también aquí
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      if (response.data.token) {
+        setUser(response.data.usuario);
+        setIsAuthenticated(true);
+        localStorage.setItem('token', response.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+        return { success: true };
+      }
     } catch (error) {
-      console.error('Error al registrarse:', error);
+      console.error('Register error:', error);
+      
+      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+        return { 
+          success: false, 
+          message: 'El servidor está tardando en responder. Por favor, intenta de nuevo en unos momentos.'
+        };
+      }
+      
       return { 
         success: false, 
-        message: error.response?.data?.error || 'Error al registrarse'
+        message: error.response?.data?.error || 'Error en el registro'
       };
     }
   };
